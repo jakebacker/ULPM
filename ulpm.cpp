@@ -4,6 +4,11 @@ using namespace std;
 
 string args[10];
 
+bool hasProgram (const char* program) {
+    return (system(program) != 0);
+}
+
+//WINDOWS VERSION
 int main(int argc, char* argv[])
 {
     for (int i=1; i<argc; i++) {
@@ -17,6 +22,7 @@ int main(int argc, char* argv[])
             cout << "Install: " << args[i + 1] << endl;
         }
     }
+
 
    return 0;
 }
