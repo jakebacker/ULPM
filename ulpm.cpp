@@ -5,8 +5,13 @@ using namespace std;
 
 string args[10];
 
-bool hasProgram (const char* program) {
-    return (system(program) != 0);
+bool hasProgram (string program) {
+    string command = "which " + program;
+    if (system(command.c_str()) == 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //WINDOWS VERSION
@@ -20,10 +25,11 @@ int main(int argc, char* argv[])
         if (args[i][0] == '-') {
             cout << "Option: " << args[i] << endl;
         } else if (args[i] == "install") {
-            cout << "Install: " << args[i + 1] << endl;
+            if (!hasProgram(args[i+1])){
+                cout << "Install: " << args[i + 1] << endl;
+            }
         }
     }
-
 
    return 0;
 }
