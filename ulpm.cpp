@@ -21,8 +21,6 @@ bool hasProgram (string program) {
 string getPackageManager () {
     if (hasProgram("apt-get")) {
         return "apt";
-    } else if (hasProgram("deb")) {
-        return "deb";
     } else if (hasProgram("dnf")) {
         return "dnf";
     } else if (hasProgram("pacman")) { //This will also have aur stuff
