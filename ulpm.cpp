@@ -89,6 +89,7 @@ int main(int argc, char* argv[])
                 string command = "sudo apt-get remove " + commands[i].substr(8);
             }
         }
+    }
     
    return 0;
 }
