@@ -20,7 +20,7 @@ bool hasProgram (string program) {
 //Needs python and stuff like that
 string getPackageManager () {
     if (hasProgram("apt-get")) {
-        return "apt-get";
+        return "apt";
     } else if (hasProgram("deb")) {
         return "deb";
     } else if (hasProgram("dnf")) {
