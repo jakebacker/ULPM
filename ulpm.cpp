@@ -21,8 +21,6 @@ bool hasProgram (string program) {
 string getPackageManager () {
     if (hasProgram("apt-get")) {
         return "apt";
-    } else if (hasProgram("deb")) {
-        return "deb";
     } else if (hasProgram("dnf")) {
         return "dnf";
     } else if (hasProgram("pacman")) { //This will also have aur stuff
@@ -82,7 +80,15 @@ int main(int argc, char* argv[])
         cout << commands[i] << endl;
     }
 
-    
+    if (packMan == "apt") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0, 9) == "Install: ") {
+                string command = "sudo apt-get install " + commands[i].substr(9);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo apt-get remove " + commands[i].substr(8);
+            }
+        }
     
    return 0;
 }
