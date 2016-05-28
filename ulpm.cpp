@@ -1,3 +1,8 @@
+/*
+    ULPM is a simple Unified Linux Package Manager with minimum requirements and works on all linux distributions.
+    Copyright (C) 2016  Jake Backer <jbacker42@gmail.com>
+*/
+
 #include <iostream>
 #include <cstdlib>
 
@@ -83,10 +88,16 @@ int main(int argc, char* argv[])
     if (packMan == "apt") {
         for (int i=0; i < argc; i++) {
             if (commands[i].substr(0, 9) == "Install: ") {
-                string command = "sudo apt-get install " + commands[i].substr(9);
+                string command = "sudo apt-get -y -qq install " + commands[i].substr(9);
                 system (command.c_str());
             } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo apt-get remove " + commands[i].substr(8);
+                string command = "sudo apt-get -y -qq remove " + commands[i].substr(8);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 7) == "Upgrade") {
+                system ("sudo apt-get -y -qq update"); //Yes, this is correect
+            } else if (commands[i].substr(0, 8) == "Update: ") {
+                string command = "sudo apt-get -y -qq upgrade " + commands[i].substr(8);
+                system (command.c_str());
             }
         }
     }
