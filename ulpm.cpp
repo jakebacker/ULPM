@@ -136,6 +136,24 @@ int main(int argc, char* argv[])
                 system (command.c_str());
             }
         }
+    } else if (packMan == "pacman") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0, 9) == "Install: ") {
+                string command = "sudo pacman -q --noconfirm -S " + commands[i].substr(9);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo pacman -q --noconfirm -R " + commands[i].substr(8);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 7) == "Upgrade") {
+                system ("sudo pacman -q -Syu");
+            } else if (commands[i].substr(0, 8) == "Update: ") {
+                string command = "sudo pacman -q --noconfirm -U " + commands[i].substr(8);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "pacman -q -Qi " + commands[i].substr(6) + " |grep Depends";
+                system (command.c_str());
+            }
+        }
     }
     
    return 0;
