@@ -118,6 +118,24 @@ int main(int argc, char* argv[])
                 system (command.c_str());
             }
         }
+    } else if (packMan == "dnf") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0, 9) == "Install: ") {
+                string command = "sudo dnf -yq install " + commands[i].substr(9);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo dnf -yq remove " + commands[i].substr(8);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 7) == "Upgrade") {
+                system ("sudo dnf -yq distro-sync");
+            } else if (commands[i].substr(0, 8) == "Update: ") {
+                string command = "sudo dnf -yq upgrade " + commands[i].substr(8);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "rpm -qR " + commands[i].substr(6);
+                system (command.c_str());
+            }
+        }
     }
     
    return 0;
