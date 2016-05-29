@@ -64,23 +64,35 @@ int main(int argc, char* argv[])
 
     for (int i=1; i<argc; i++) {
         if (args[i][0] == '-') {
-            cout << "Option: " << args[i] << endl;
+            
             commands[i] = "Option: " + args[i];
+            cout << commands[i] << endl;
+            
         } else if (args[i] == "install") {
-            cout << "Install: " << args[i + 1] << endl;
+            
             commands[i] = "Install: " + args[i + 1];
+            cout << commands[i] << endl;
+            
         } else if (args[i] == "remove") {
-            cout << "Remove: " << args[i + 1] << endl;
+            
             commands[i] = "Remove: " + args[i + 1];
+            cout << commands[i] << endl;
+            
         } else if (args[i] == "upgrade") {
-            cout << "Upgrade" << endl;
+            
             commands[i] = "Upgrade";
+            cout << commands[i] << endl;
+            
         } else if (args[i] == "update") {
-            cout << "Update: " << args[i + 1] << endl;
+            
             commands[i] = "Update: " + args[i + 1];
+            cout << commands[i] << endl;
+            
         } else if (args[i] == "dependencies") {
-            cout << "Deps: " + args[i + 1] << endl;
+            
             commands[i] = "Deps: " + args[i + 1];
+            cout << commands[i] << endl;
+            
         }
     }
     
