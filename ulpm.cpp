@@ -78,6 +78,9 @@ int main(int argc, char* argv[])
         } else if (args[i] == "update") {
             cout << "Update: " << args[i + 1] << endl;
             commands[i] = "Update: " + args[i + 1];
+        } else if (args[i] == "dependencies") {
+            cout << "Deps: " + args[i + 1] << endl;
+            commands[i] = "Deps: " + args[i + 1];
         }
     }
     
@@ -97,6 +100,9 @@ int main(int argc, char* argv[])
                 system ("sudo apt-get -y -qq update"); //Yes, this is correect
             } else if (commands[i].substr(0, 8) == "Update: ") {
                 string command = "sudo apt-get -y -qq upgrade " + commands[i].substr(8);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "apt-cache depends " + commands[i].substr(6);
                 system (command.c_str());
             }
         }
