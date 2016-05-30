@@ -30,8 +30,6 @@ string getPackageManager () {
         return "dnf";
     } else if (hasProgram("pacman")) { //This will also have aur stuff
         return "pacman";
-    } else if (hasProgram("dpkg")) {
-        return "dpkg";
     } else if (hasProgram("aptitude")) {
         return "aptitude";
     } else if (hasProgram("rpm")) {
