@@ -142,7 +142,7 @@ int main(int argc, char* argv[])
                 string command = "sudo dnf -yq upgrade " + commands[i].substr(8);
                 system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "rpm -qR " + commands[i].substr(6); //This does not work
+                string command = "dnf repoquery --requires " + commands[i].substr(6); 
                 system (command.c_str());
             }
         }
