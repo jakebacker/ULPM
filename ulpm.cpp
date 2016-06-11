@@ -41,7 +41,7 @@ string getPackageManager () {
     } else if (hasProgram("curl")) {
         return "curl";
     } else {
-        cout << "Cannot find package manager! Are you on Windows?" << endl;
+        cout << "No standard package manager. Skipping..." << endl;
         return "none";
     }
 }
@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
                 string command = "sudo dnf -yq upgrade " + commands[i].substr(8);
                 system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "rpm -qR " + commands[i].substr(6);
+                string command = "rpm -qR " + commands[i].substr(6); //This does not work
                 system (command.c_str());
             }
         }
@@ -150,6 +150,23 @@ int main(int argc, char* argv[])
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "pacman -q -Qi " + commands[i].substr(6) + " |grep Depends";
                 system (command.c_str());
+            }
+        }
+    } else if (packMan == "aptitude") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0, 9) == "Install: ") {
+                string command = "sudo aptitude -yq install " + commands[i].substr(9);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo aptitude -yq remove " + commands[i].substr(8);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 7) == "Upgrade") {
+                system ("sudo aptitude -yq update");
+                system ("sudo aptitude -yq full-upgrade");
+            } else if (commands[i].substr(0, 8) == "Update: "){
+                string command = "sudo aptitude -yq install " + commands[i].substr(8);   
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "aptitude -q show " + commands[i].substr(6) + " |grep Depends"; //Not working
             }
         }
     }
