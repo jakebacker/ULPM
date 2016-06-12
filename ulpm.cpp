@@ -118,9 +118,9 @@ int main(int argc, char* argv[])
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo apt-get -y -qq remove " + commands[i].substr(8);
                 system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Upgrade") {
-                system ("sudo apt-get -y -qq update"); //Yes, this is correect
-            } else if (commands[i].substr(0, 8) == "Update: ") {
+            } else if (commands[i].substr(0, 7) == "Update") {
+                system ("sudo apt-get -y -qq update");
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo apt-get -y -qq upgrade " + commands[i].substr(8);
                 system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
@@ -136,9 +136,9 @@ int main(int argc, char* argv[])
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo dnf -yq remove " + commands[i].substr(8);
                 system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Upgrade") {
+            } else if (commands[i].substr(0, 7) == "Update") {
                 system ("sudo dnf -yq distro-sync");
-            } else if (commands[i].substr(0, 8) == "Update: ") {
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo dnf -yq upgrade " + commands[i].substr(8);
                 system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
@@ -154,9 +154,9 @@ int main(int argc, char* argv[])
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo pacman -q --noconfirm -R " + commands[i].substr(8);
                 system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Upgrade") {
+            } else if (commands[i].substr(0, 7) == "Update") {
                 system ("sudo pacman -q -Syu");
-            } else if (commands[i].substr(0, 8) == "Update: ") {
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo pacman -q --noconfirm -U " + commands[i].substr(8);
                 system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
@@ -172,10 +172,10 @@ int main(int argc, char* argv[])
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo aptitude -yq remove " + commands[i].substr(8);
                 system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Upgrade") {
+            } else if (commands[i].substr(0, 7) == "Update") {
                 system ("sudo aptitude -yq update");
                 system ("sudo aptitude -yq full-upgrade");
-            } else if (commands[i].substr(0, 8) == "Update: "){
+            } else if (commands[i].substr(0, 8) == "Upgrade: "){
                 string command = "sudo aptitude -yq install " + commands[i].substr(8);   
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "aptitude -q show " + commands[i].substr(6) + " |grep Depends"; //Not working
