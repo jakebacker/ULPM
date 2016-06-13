@@ -1,7 +1,7 @@
 #    Copyright (C) 2016 Jake Richard Backer. All Rights Reserved.
 #    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #	 
-#    This code is free software; you may not modify the software and/or you may
+#    This code is free software; you may not modify the software and/or
 #    redistribute it under the terms of the BSD 3-Clause License only, as it is
 #    published by the University of California, Berkeley.
 #    
