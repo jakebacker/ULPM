@@ -44,8 +44,6 @@ string getPackageManager () {
         return "pacman";
     } else if (hasProgram("aptitude")) {
         return "aptitude";
-    } else if (hasProgram("rpm")) {
-        return "rpm";
     } else if (hasProgram("fpm")) {
         return "fpm";
     } else if (hasProgram("wget")) {
