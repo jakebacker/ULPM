@@ -46,6 +46,8 @@ string getPackageManager () {
         return "aptitude";
     /*} else if (hasProgram("fpm")) {
         return "fpm";*/
+    } else if (hasProgram("eopkg")) {
+        return "solus";
     } else if (hasProgram("wget")) {
         return "wget";
     } else if (hasProgram("curl")) {
@@ -173,10 +175,28 @@ int main(int argc, char* argv[])
             } else if (commands[i].substr(0, 7) == "Update") {
                 system ("sudo aptitude -yq update");
                 system ("sudo aptitude -yq full-upgrade");
-            } else if (commands[i].substr(0, 8) == "Upgrade: "){
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo aptitude -yq install " + commands[i].substr(8);   
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "aptitude -q show " + commands[i].substr(6) + " |grep Depends"; //Not working
+            }
+        }
+    } else if (packMan == "solus") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0,9) == "Install: ") {
+                string command = "sudo eopkg it " + commands[i].substr(9);
+                system (command.c_str());
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo eopkg rm " commands[i].substr(8);
+                system (command);
+            } else if (commands[i].substr(0, 7) == "Update") {
+                system ("sudo eopkg ur");
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
+                string command = "sudo eopkg up " + commands[i].substr(8);
+                system (command);
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "eopkg info " + commands[i].substr(6) + "|grep Dependencies";
+                system (command.c_str);
             }
         }
     }
