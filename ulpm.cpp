@@ -67,10 +67,16 @@ int main(int argc, char* argv[])
     }
     
     if (getPackageManager() == "none") {
-        return 1;
+        if (hasProgram("pip")) {
+            packMan = "python";
+        } else if (hasProgram("gem")) {
+            packMan = "ruby";
+        } else {
+            return 1;
+        }
+    } else {
+        packMan = getPackageManager();   
     }
-    
-    packMan = getPackageManager();
 
     for (int i=1; i<argc; i++) {
         if (args[i][0] == '-') {
@@ -187,16 +193,16 @@ int main(int argc, char* argv[])
                 string command = "sudo eopkg it " + commands[i].substr(9);
                 system (command.c_str());
             } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo eopkg rm " commands[i].substr(8);
-                system (command);
+                string command = "sudo eopkg rm " + commands[i].substr(8);
+                system (command.c_str());
             } else if (commands[i].substr(0, 7) == "Update") {
                 system ("sudo eopkg ur");
             } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo eopkg up " + commands[i].substr(8);
-                system (command);
+                system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "eopkg info " + commands[i].substr(6) + "|grep Dependencies";
-                system (command.c_str);
+                system (command.c_str());
             }
         }
     }
