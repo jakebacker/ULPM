@@ -96,12 +96,12 @@ int main(int argc, char* argv[])
             
         } else if (args[i] == "upgrade") {
             
-            commands[i] = "Upgrade";
+            commands[i] = "Upgrade: ";
             cout << commands[i] << endl;
             
         } else if (args[i] == "update") {
             
-            commands[i] = "Update: " + args[i + 1];
+            commands[i] = "Update" + args[i + 1];
             cout << commands[i] << endl;
             
         } else if (args[i] == "dependencies") {
