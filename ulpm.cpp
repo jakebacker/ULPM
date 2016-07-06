@@ -50,13 +50,33 @@ string getPackageManager () {
         return "solus";
     } else if (hasProgram("wget")) {
         return "wget";
-    } else if (hasProgram("curl")) {
-        return "curl";
     } else {
         cout << "No standard package manager. Skipping..." << endl;
         return "none";
     }
 }
+
+string getPythonPackage() {
+    
+}
+
+string getRubyPackage() {
+    
+}
+
+string getNpmPackage() {
+    
+}
+
+string wgetGet() {
+    
+}
+
+string curlGet() {
+    //This will be used in wget    
+}
+
+
 
 int main(int argc, char* argv[])
 {
