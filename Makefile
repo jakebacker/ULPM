@@ -13,12 +13,19 @@
 #    Please contact the author, Jake Backer, at <jbacker42@gmail.com> with any
 #    questions.
 
+CXX?=g++
+CXXFLAGS?=-Wall -Wextra -O2 -pipe
+
 all: ulpm.cpp
 	mkdir -p out
-	g++ ulpm.cpp -o out/ulpm
+	$(CXX) ulpm.cpp $(CXXFLAGS) -o out/ulpm
 	chmod +x out/ulpm
-	sudo install out/ulpm /usr/bin
-	
+
+install: all
+	install out/ulpm /usr/bin
+
+uninstall:
+	rm /usr/bin/ulpm
 
 clean: 
 	$(RM) out/ulpm
