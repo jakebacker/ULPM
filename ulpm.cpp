@@ -57,23 +57,24 @@ string getPackageManager () {
 }
 
 string getPythonPackage() {
-    
+    return "null";
 }
 
 string getRubyPackage() {
-    
+    return "null";
 }
 
 string getNpmPackage() {
-    
+    return "null";
 }
 
 string wgetGet() {
-    
+    return "null";
 }
 
 string curlGet() {
-    //This will be used in wget    
+    //This will be used in wget
+    return "null";
 }
 
 
