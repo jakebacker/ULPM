@@ -1,4 +1,4 @@
-Copyright (c) 2016, 
+Copyright (c) 2016, Jake Richard Backer
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
