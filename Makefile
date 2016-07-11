@@ -1,5 +1,17 @@
-#	    ULPM is a simple Unified Linux Package Manager with minimum requirements and works on all linux distributions.
-#		Copyright (C) 2016  Jake Backer <jbacker42@gmail.com>
+#    Copyright (C) 2016 Jake Richard Backer. All Rights Reserved.
+#    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#	 
+#    This code is free software; you may not modify the software and/or
+#    redistribute it under the terms of the BSD 3-Clause License only, as it is
+#    published by the University of California, Berkeley.
+#    
+#    This code is distributed with the
+#    implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+#    See the BSD 3-Clause License for more details (a copy is
+#    included in the LICENSE file that accompanied this code).
+#    
+#    Please contact the author, Jake Backer, at <jbacker42@gmail.com> with any
+#    questions.
 
 CXX?=g++
 CXXFLAGS?=-Wall -Wextra -O2 -pipe
@@ -15,5 +27,5 @@ install: all
 uninstall:
 	rm /usr/bin/ulpm
 
-clean:
-	rm out/ulpm
+clean: 
+	$(RM) out/ulpm
