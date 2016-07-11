@@ -5,6 +5,6 @@ ULPM was created with knowing that there is no package manager for linux that ev
 
 # Build Instructions
 1. Run `sudo make install`
-3. Run `make clean` to clean up
+2. Run `make clean` to clean up
 
 To uninstall, run `make uninstall`
