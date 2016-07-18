@@ -23,6 +23,7 @@ using namespace std;
 string args[10];
 
 string packMan; // lol
+string out;
 
 bool hasProgram (string program) {
     string command = "which " + program;
@@ -141,67 +142,67 @@ int main(int argc, char* argv[])
         for (int i=0; i < argc; i++) {
             if (commands[i].substr(0, 9) == "Install: ") {
                 string command = "sudo apt-get -y -qq install " + commands[i].substr(9);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo apt-get -y -qq remove " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 7) == "Update") {
-                system ("sudo apt-get -y -qq update");
+                out = system ("sudo apt-get -y -qq update");
             } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo apt-get -y -qq upgrade " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "apt-cache depends " + commands[i].substr(6);
-                system (command.c_str());
+                out = system (command.c_str());
             }
         }
     } else if (packMan == "dnf") {
         for (int i=0; i < argc; i++) {
             if (commands[i].substr(0, 9) == "Install: ") {
                 string command = "sudo dnf -yq install " + commands[i].substr(9);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo dnf -yq remove " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 7) == "Update") {
-                system ("sudo dnf -yq distro-sync");
+                out = system ("sudo dnf -yq distro-sync");
             } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo dnf -yq upgrade " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "dnf repoquery --requires " + commands[i].substr(6); 
-                system (command.c_str());
+                out = system (command.c_str());
             }
         }
     } else if (packMan == "pacman") {
         for (int i=0; i < argc; i++) {
             if (commands[i].substr(0, 9) == "Install: ") {
                 string command = "sudo pacman -q --noconfirm -S " + commands[i].substr(9);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo pacman -q --noconfirm -R " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 7) == "Update") {
-                system ("sudo pacman -q -Syu");
+                out = system ("sudo pacman -q -Syu");
             } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo pacman -q --noconfirm -U " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "pacman -q -Qi " + commands[i].substr(6) + " |grep Depends";
-                system (command.c_str());
+                out = system (command.c_str());
             }
         }
     } else if (packMan == "aptitude") {
         for (int i=0; i < argc; i++) {
             if (commands[i].substr(0, 9) == "Install: ") {
                 string command = "sudo aptitude -yq install " + commands[i].substr(9);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo aptitude -yq remove " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 7) == "Update") {
-                system ("sudo aptitude -yq update");
-                system ("sudo aptitude -yq full-upgrade");
+                out = system ("sudo aptitude -yq update");
+                out = system ("sudo aptitude -yq full-upgrade");
             } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo aptitude -yq install " + commands[i].substr(8);   
             } else if (commands[i].substr(0, 6) == "Deps: ") {
@@ -212,18 +213,18 @@ int main(int argc, char* argv[])
         for (int i=0; i < argc; i++) {
             if (commands[i].substr(0,9) == "Install: ") {
                 string command = "sudo eopkg it " + commands[i].substr(9);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 8) == "Remove: ") {
                 string command = "sudo eopkg rm " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 7) == "Update") {
-                system ("sudo eopkg ur");
+                out = system ("sudo eopkg ur");
             } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo eopkg up " + commands[i].substr(8);
-                system (command.c_str());
+                out = system (command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "eopkg info " + commands[i].substr(6) + "|grep Dependencies";
-                system (command.c_str());
+                out = system (command.c_str());
             }
         }
     }
