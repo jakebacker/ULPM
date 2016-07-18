@@ -205,8 +205,10 @@ int main(int argc, char* argv[])
                 out = system ("sudo aptitude -yq full-upgrade");
             } else if (commands[i].substr(0, 8) == "Upgrade: ") {
                 string command = "sudo aptitude -yq install " + commands[i].substr(8);   
+                out = system(command.c_str());
             } else if (commands[i].substr(0, 6) == "Deps: ") {
                 string command = "aptitude -q show " + commands[i].substr(6) + " |grep Depends"; //Not working
+                //out = system(command.c_str());
             }
         }
     } else if (packMan == "solus") {
