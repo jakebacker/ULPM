@@ -23,7 +23,6 @@ using namespace std;
 string args[10];
 
 string packMan; // lol
-string out;
 
 bool hasProgram (string program) {
     string command = "which " + program;
@@ -55,6 +54,102 @@ string getPackageManager () {
         cout << "No standard package manager. Skipping..." << endl;
         return "none";
     }
+}
+
+string getBasicCommand (int argc, string commands[]) {
+    if (packMan == "apt") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0, 9) == "Install: ") {
+                string command = "sudo apt-get -y install " + commands[i].substr(9);
+                return command;
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo apt-get -y remove " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 7) == "Update") {
+                return "sudo apt-get -y update";
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
+                string command = "sudo apt-get -y upgrade " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "apt-cache depends " + commands[i].substr(6);
+                return command;
+            }
+        }
+        
+    } else if (packMan == "dnf") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0, 9) == "Install: ") {
+                string command = "sudo dnf -y install " + commands[i].substr(9);
+                return command;
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo dnf -y remove " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 7) == "Update") {
+                return "sudo dnf -y distro-sync";
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
+                string command = "sudo dnf -y upgrade " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "dnf repoquery --requires " + commands[i].substr(6); 
+                return command;
+            }
+        }
+    } else if (packMan == "pacman") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0, 9) == "Install: ") {
+                string command = "sudo pacman --noconfirm -S " + commands[i].substr(9);
+                return command;
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo pacman --noconfirm -R " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 7) == "Update") {
+                return "sudo pacman -Syu";
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
+                string command = "sudo pacman --noconfirm -U " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "pacman -Qi " + commands[i].substr(6) + " |grep Depends";
+                return command;
+            }
+        }
+    } else if (packMan == "aptitude") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0, 9) == "Install: ") {
+                string command = "sudo aptitude -y install " + commands[i].substr(9);
+                return command;
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo aptitude -y remove " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 7) == "Update") {
+                return "sudo aptitude -y update&&sudo aptitude -y full-upgrade";
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
+                string command = "sudo aptitude -y install " + commands[i].substr(8);   
+                return command;
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "aptitude -q show " + commands[i].substr(6) + " |grep Depends"; //Not working
+                //return command;
+            }
+        }
+    } else if (packMan == "solus") {
+        for (int i=0; i < argc; i++) {
+            if (commands[i].substr(0,9) == "Install: ") {
+                string command = "sudo eopkg it " + commands[i].substr(9);
+                return command;
+            } else if (commands[i].substr(0, 8) == "Remove: ") {
+                string command = "sudo eopkg rm " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 7) == "Update") {
+                return "sudo eopkg ur";
+            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
+                string command = "sudo eopkg up " + commands[i].substr(8);
+                return command;
+            } else if (commands[i].substr(0, 6) == "Deps: ") {
+                string command = "eopkg info " + commands[i].substr(6) + "|grep Dependencies";
+                return command;
+            }
+        }
+    }
+    return "invalid";
 }
 
 string getPythonPackage() {
@@ -137,99 +232,8 @@ int main(int argc, char* argv[])
     for (int i=1; i < argc; i++) {
         cout << commands[i] << endl;
     }
-
-    if (packMan == "apt") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0, 9) == "Install: ") {
-                string command = "sudo apt-get -y install " + commands[i].substr(9);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo apt-get -y remove " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Update") {
-                out = system ("sudo apt-get -y update");
-            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
-                string command = "sudo apt-get -y upgrade " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "apt-cache depends " + commands[i].substr(6);
-                out = system (command.c_str());
-            }
-        }
-    } else if (packMan == "dnf") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0, 9) == "Install: ") {
-                string command = "sudo dnf -y install " + commands[i].substr(9);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo dnf -y remove " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Update") {
-                out = system ("sudo dnf -y distro-sync");
-            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
-                string command = "sudo dnf -y upgrade " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "dnf repoquery --requires " + commands[i].substr(6); 
-                out = system (command.c_str());
-            }
-        }
-    } else if (packMan == "pacman") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0, 9) == "Install: ") {
-                string command = "sudo pacman --noconfirm -S " + commands[i].substr(9);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo pacman --noconfirm -R " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Update") {
-                out = system ("sudo pacman -Syu");
-            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
-                string command = "sudo pacman --noconfirm -U " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "pacman -Qi " + commands[i].substr(6) + " |grep Depends";
-                out = system (command.c_str());
-            }
-        }
-    } else if (packMan == "aptitude") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0, 9) == "Install: ") {
-                string command = "sudo aptitude -y install " + commands[i].substr(9);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo aptitude -y remove " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Update") {
-                out = system ("sudo aptitude -y update");
-                out = system ("sudo aptitude -y full-upgrade");
-            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
-                string command = "sudo aptitude -y install " + commands[i].substr(8);   
-                out = system(command.c_str());
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "aptitude -q show " + commands[i].substr(6) + " |grep Depends"; //Not working
-                //out = system(command.c_str());
-            }
-        }
-    } else if (packMan == "solus") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0,9) == "Install: ") {
-                string command = "sudo eopkg it " + commands[i].substr(9);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo eopkg rm " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 7) == "Update") {
-                out = system ("sudo eopkg ur");
-            } else if (commands[i].substr(0, 8) == "Upgrade: ") {
-                string command = "sudo eopkg up " + commands[i].substr(8);
-                out = system (command.c_str());
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "eopkg info " + commands[i].substr(6) + "|grep Dependencies";
-                out = system (command.c_str());
-            }
-        }
-    }
     
-   return 0;
+    system(getBasicCommand(argc, commands).c_str());
+    
+    return 0;
 }
