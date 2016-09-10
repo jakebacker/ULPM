@@ -24,6 +24,8 @@ string args[10];
 
 string packMan; // lol
 
+int packOut;
+
 bool hasProgram (string program) {
     string command = "which " + program;
     if (system(command.c_str()) == 0) {
@@ -36,6 +38,7 @@ bool hasProgram (string program) {
 //This can be condensed
 //Needs python and stuff like that
 string getPackageManager () {
+
     if (hasProgram("apt-get")) {
         return "apt";
     } else if (hasProgram("dnf")) {
@@ -233,7 +236,33 @@ int main(int argc, char* argv[])
         cout << commands[i] << endl;
     }
     
-    system(getBasicCommand(argc, commands).c_str());
+    packOut = system(getBasicCommand(argc, commands).c_str());
+    cout << packOut << endl;
+    
+    if (packMan == "apt" && packOut != 0) {
+        cout << "test" << endl;
+        //TODO: Do not repeat code
+        if (hasProgram("dnf")) {
+            packMan = "dnf";
+        } else if (hasProgram("pacman")) { //This will also have aur stuff
+            packMan = "pacman";
+        } else if (hasProgram("aptitude")) {
+            packMan = "aptitude";
+        /*} else if (hasProgram("fpm")) {
+            packMan = "fpm";*/
+        } else if (hasProgram("eopkg")) {
+            packMan = "solus";
+        } else if (hasProgram("wget")) {
+            packMan = "wget";
+        }
+        
+        if (packMan == "apt") {
+            cout << "No installed standard package manager has the requested package" << endl; 
+        } else {
+            packOut = system(getBasicCommand(argc, commands).c_str());
+        }
+        
+    }
     
     return 0;
 }
