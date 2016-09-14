@@ -15,6 +15,7 @@
     questions.
 */
 
+#include <stdio.h>
 #include <iostream>
 #include <cstdlib>
 
@@ -23,6 +24,7 @@ using namespace std;
 string args[10];
 
 string packMan; // lol
+string newPackMan;
 
 int packOut;
 
@@ -155,6 +157,51 @@ string getBasicCommand (int argc, string commands[]) {
     return "invalid";
 }
 
+
+string getNewPackMan() {
+    cout << packOut << "####" << endl;
+    if (packOut != 0) {
+        if (packMan == "apt") {
+            packMan = "dnf";
+            if (hasProgram("dnf")) {
+                return "dnf";   
+            } else {
+                return "new";
+            }
+        } else if (packMan == "dnf") {
+            packMan = "pacman";
+            if (hasProgram("pacman")) {
+                return "pacman";
+            } else {
+                return "new";
+            }
+        } else if (packMan == "pacman") {
+            packMan = "aptitude";
+            if (hasProgram("aptitude")) {
+                return "aptitude";
+            } else {
+                return "new";
+            }
+        } else if (packMan == "aptitude") {
+            packMan = "solus";
+            if (hasProgram("eopkg")) {
+                return "solus";
+            } else {
+                return "new";
+            }
+        } else if (packMan == "solus") {
+            packMan = "none";
+            return "none";
+        } else {
+            packMan = "err";
+            return "err";
+        }
+        
+    }
+    
+    return "ok";
+}
+
 string getPythonPackage() {
     return "null";
 }
@@ -236,33 +283,31 @@ int main(int argc, char* argv[])
         cout << commands[i] << endl;
     }
     
+    runBasicCommand:
     packOut = system(getBasicCommand(argc, commands).c_str());
     cout << packOut << endl;
     
-    if (packMan == "apt" && packOut != 0) {
-        cout << "test" << endl;
-        //TODO: Do not repeat code
-        if (hasProgram("dnf")) {
-            packMan = "dnf";
-        } else if (hasProgram("pacman")) { //This will also have aur stuff
-            packMan = "pacman";
-        } else if (hasProgram("aptitude")) {
-            packMan = "aptitude";
-        /*} else if (hasProgram("fpm")) {
-            packMan = "fpm";*/
-        } else if (hasProgram("eopkg")) {
-            packMan = "solus";
-        } else if (hasProgram("wget")) {
-            packMan = "wget";
-        }
-        
-        if (packMan == "apt") {
-            cout << "No installed standard package manager has the requested package" << endl; 
-        } else {
-            packOut = system(getBasicCommand(argc, commands).c_str());
-        }
-        
+    newPack:
+    newPackMan = getNewPackMan();
+    
+    cout << newPackMan << endl;
+    
+    if (newPackMan == "new") {
+        goto newPack;
     }
+    
+    if (newPackMan == "none") {
+        cout << "No standard package manager" << endl;
+        return 1;
+    }
+    
+    if (newPackMan != "ok") {
+        packMan = newPackMan;
+        goto runBasicCommand; // TODO: Remove this goto statment and the label
+    } else {
+        return 0;
+    }
+    
     
     return 0;
 }
