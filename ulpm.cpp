@@ -53,8 +53,6 @@ string getPackageManager () {
         return "fpm";*/
     } else if (hasProgram("eopkg")) {
         return "solus";
-    } else if (hasProgram("wget")) {
-        return "wget";
     } else {
         cout << "No standard package manager. Skipping..." << endl;
         return "none";
