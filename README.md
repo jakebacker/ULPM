@@ -8,3 +8,6 @@ ULPM was created with knowing that there is no package manager for linux that ev
 2. Run `make clean` to clean up
 
 To uninstall, run `make uninstall`
+
+# Current State
+Right now, ULPM does not work consistently and it not complete but it does allow for one set of commands to work for every distro
