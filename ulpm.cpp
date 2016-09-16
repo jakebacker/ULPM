@@ -118,6 +118,9 @@ string getBasicCommand (int argc, string commands[]) {
     } else if (packMan == "aptitude") {
         for (int i=0; i < argc; i++) {
             if (commands[i].substr(0, 9) == "Install: ") {
+                cout << "####################### WARNING #######################" <<
+                endl << "aptitude has a know bug with versions older than 0.7.6-1 which will cause ULPM to inproperly work." <<
+                endl << "USE AT YOUR OWN RISK" << endl;
                 string command = "sudo aptitude -y install " + commands[i].substr(9);
                 return command;
             } else if (commands[i].substr(0, 8) == "Remove: ") {
@@ -157,7 +160,6 @@ string getBasicCommand (int argc, string commands[]) {
 
 
 string getNewPackMan() {
-    cout << packOut << "####" << endl;
     if (packOut != 0) {
         if (packMan == "apt") {
             packMan = "dnf";
