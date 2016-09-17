@@ -5,7 +5,7 @@
 #    redistribute it under the terms of the BSD 3-Clause License only, as it is
 #    published by the University of California, Berkeley.
 #    
-#    This code is distributed with the
+#    This code is distributed WITHOUT the
 #    implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 #    See the BSD 3-Clause License for more details (a copy is
 #    included in the LICENSE file that accompanied this code).
