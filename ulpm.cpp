@@ -40,7 +40,6 @@ bool hasProgram (string program) {
 //This can be condensed
 //Needs python and stuff like that
 string getPackageManager () {
-
     if (hasProgram("apt-get")) {
         return "apt";
     } else if (hasProgram("dnf")) {
@@ -233,6 +232,7 @@ int main(int argc, char* argv[])
         args[i] = argv[i];
     }
     
+    //This will be changed
     if (getPackageManager() == "none") {
         if (hasProgram("pip")) {
             packMan = "python";
@@ -247,35 +247,23 @@ int main(int argc, char* argv[])
 
     for (int i=1; i<argc; i++) {
         if (args[i][0] == '-') {
-            
             commands[i] = "Option: " + args[i];
             cout << commands[i] << endl;
-            
         } else if (args[i] == "install") {
-            
             commands[i] = "Install: " + args[i + 1];
             cout << commands[i] << endl;
-            
         } else if (args[i] == "remove") {
-            
             commands[i] = "Remove: " + args[i + 1];
             cout << commands[i] << endl;
-            
         } else if (args[i] == "upgrade") {
-            
             commands[i] = "Upgrade: ";
             cout << commands[i] << endl;
-            
         } else if (args[i] == "update") {
-            
             commands[i] = "Update" + args[i + 1];
             cout << commands[i] << endl;
-            
         } else if (args[i] == "dependencies") {
-            
             commands[i] = "Deps: " + args[i + 1];
             cout << commands[i] << endl;
-            
         }
     }
     
