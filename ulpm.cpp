@@ -58,101 +58,102 @@ string getPackageManager () {
     }
 }
 
-string getBasicCommand (int argc, string commands[]) {
+string getBasicCommand (string commands[]) {
     if (packMan == "apt") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0, 9) == "Install: ") {
-                string command = "sudo apt-get -y install " + commands[i].substr(9);
-                return command;
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo apt-get -y remove " + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 7) == "Update") {
-                return "sudo apt-get -y update";
-            } else if (commands[i].substr(0, 8) == "Upgrade") {
-                string command = "sudo apt-get -y upgrade" + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "apt-cache depends " + commands[i].substr(6);
-                return command;
-            }
+        
+        if (commands[0].substr(0, 9) == "Install: ") {
+            string command = "sudo apt-get -y install " + commands[0].substr(9);
+            return command;
+        } else if (commands[0].substr(0, 8) == "Remove: ") {
+            string command = "sudo apt-get -y remove " + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 7) == "Update") {
+            return "sudo apt-get -y update";
+        } else if (commands[0].substr(0, 8) == "Upgrade") {
+            string command = "sudo apt-get -y upgrade" + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 6) == "Deps: ") {
+            string command = "apt-cache depends " + commands[0].substr(6);
+            return command;
         }
         
     } else if (packMan == "dnf") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0, 9) == "Install: ") {
-                string command = "sudo dnf -y install " + commands[i].substr(9);
-                return command;
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo dnf -y remove " + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 7) == "Update") {
-                return "sudo dnf -y distro-sync";
-            } else if (commands[i].substr(0, 8) == "Upgrade") {
-                string command = "sudo dnf -y upgrade" + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "dnf repoquery --requires " + commands[i].substr(6); 
-                return command;
-            }
+        
+        if (commands[0].substr(0, 9) == "Install: ") {
+            string command = "sudo dnf -y install " + commands[0].substr(9);
+            return command;
+        } else if (commands[0].substr(0, 8) == "Remove: ") {
+            string command = "sudo dnf -y remove " + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 7) == "Update") {
+            return "sudo dnf -y distro-sync";
+        } else if (commands[0].substr(0, 8) == "Upgrade") {
+            string command = "sudo dnf -y upgrade" + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 6) == "Deps: ") {
+            string command = "dnf repoquery --requires " + commands[0].substr(6); 
+            return command;
         }
+            
     } else if (packMan == "pacman") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0, 9) == "Install: ") {
-                string command = "sudo pacman --noconfirm -S " + commands[i].substr(9);
-                return command;
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo pacman --noconfirm -R " + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 7) == "Update") {
-                return "sudo pacman -Syu";
-            } else if (commands[i].substr(0, 8) == "Upgrade") {
-                string command = "sudo pacman --noconfirm -U" + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "pacman -Qi " + commands[i].substr(6) + " |grep Depends";
-                return command;
-            }
+        
+        if (commands[0].substr(0, 9) == "Install: ") {
+            string command = "sudo pacman --noconfirm -S " + commands[0].substr(9);
+            return command;
+        } else if (commands[0].substr(0, 8) == "Remove: ") {
+            string command = "sudo pacman --noconfirm -R " + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 7) == "Update") {
+            return "sudo pacman -Syu";
+        } else if (commands[0].substr(0, 8) == "Upgrade") {
+            string command = "sudo pacman --noconfirm -U" + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 6) == "Deps: ") {
+            string command = "pacman -Qi " + commands[0].substr(6) + " |grep Depends";
+            return command;
         }
+            
     } else if (packMan == "aptitude") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0, 9) == "Install: ") {
-                cout << "####################### WARNING #######################" <<
-                endl << "aptitude has a know bug with versions older than 0.7.6-1 which will cause ULPM to inproperly work." <<
-                endl << "USE AT YOUR OWN RISK" << endl;
-                string command = "sudo aptitude -y install " + commands[i].substr(9);
-                return command;
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo aptitude -y remove " + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 7) == "Update") {
-                return "sudo aptitude -y update&&sudo aptitude -y full-upgrade";
-            } else if (commands[i].substr(0, 8) == "Upgrade") {
-                string command = "sudo aptitude -y install" + commands[i].substr(8);   
-                return command;
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "aptitude -q show " + commands[i].substr(6) + " |grep Depends"; //Not working
-                //return command;
-            }
+        
+        if (commands[0].substr(0, 9) == "Install: ") {
+            
+            cout << "####################### WARNING #######################" <<
+            endl << "aptitude has a know bug with versions older than 0.7.6-1 which will cause ULPM to inproperly work." <<
+            endl << "USE AT YOUR OWN RISK" << endl;
+            
+            string command = "sudo aptitude -y install " + commands[0].substr(9);
+            return command;
+        } else if (commands[0].substr(0, 8) == "Remove: ") {
+            string command = "sudo aptitude -y remove " + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 7) == "Update") {
+            return "sudo aptitude -y update&&sudo aptitude -y full-upgrade";
+        } else if (commands[0].substr(0, 8) == "Upgrade") {
+            string command = "sudo aptitude -y install" + commands[0].substr(8);   
+            return command;
+        } else if (commands[0].substr(0, 6) == "Deps: ") {
+            string command = "aptitude -q show " + commands[0].substr(6) + " |grep Depends"; //Not working
+            //return command;
         }
+            
     } else if (packMan == "solus") {
-        for (int i=0; i < argc; i++) {
-            if (commands[i].substr(0,9) == "Install: ") {
-                string command = "sudo eopkg it " + commands[i].substr(9);
-                return command;
-            } else if (commands[i].substr(0, 8) == "Remove: ") {
-                string command = "sudo eopkg rm " + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 7) == "Update") {
-                return "sudo eopkg ur";
-            } else if (commands[i].substr(0, 8) == "Upgrade") {
-                string command = "sudo eopkg up" + commands[i].substr(8);
-                return command;
-            } else if (commands[i].substr(0, 6) == "Deps: ") {
-                string command = "eopkg info " + commands[i].substr(6) + "|grep Dependencies";
-                return command;
-            }
+        
+        if (commands[0].substr(0,9) == "Install: ") {
+            string command = "sudo eopkg it " + commands[0].substr(9);
+            return command;
+        } else if (commands[0].substr(0, 8) == "Remove: ") {
+            string command = "sudo eopkg rm " + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 7) == "Update") {
+            return "sudo eopkg ur";
+        } else if (commands[0].substr(0, 8) == "Upgrade") {
+            string command = "sudo eopkg up" + commands[0].substr(8);
+            return command;
+        } else if (commands[0].substr(0, 6) == "Deps: ") {
+            string command = "eopkg info " + commands[0].substr(6) + "|grep Dependencies";
+            return command;
         }
+            
     }
     return "invalid";
 }
@@ -230,6 +231,7 @@ int main(int argc, char* argv[])
     
     for (int i=1; i<argc; i++) {
         args[i] = argv[i];
+        cout << argv[i] << endl;
     }
     
     //This will be changed
@@ -246,24 +248,26 @@ int main(int argc, char* argv[])
     }
 
     for (int i=1; i<argc; i++) {
-        if (args[i][0] == '-') {
-            commands[i] = "Option: " + args[i];
-            cout << commands[i] << endl;
-        } else if (args[i] == "install") {
+        if (args[i] == "install") {
             commands[i] = "Install: " + args[i + 1];
             cout << commands[i] << endl;
+            break;
         } else if (args[i] == "remove") {
             commands[i] = "Remove: " + args[i + 1];
             cout << commands[i] << endl;
+            break;
         } else if (args[i] == "upgrade") {
             commands[i] = "Upgrade";
             cout << commands[i] << endl;
+            break;
         } else if (args[i] == "update") {
             commands[i] = "Update" + args[i + 1];
             cout << commands[i] << endl;
+            break;
         } else if (args[i] == "dependencies") {
             commands[i] = "Deps: " + args[i + 1];
             cout << commands[i] << endl;
+            break;
         }
     }
     
@@ -273,43 +277,40 @@ int main(int argc, char* argv[])
     
     runBasicCommand:
     
-    for (int i=1; i<argc; i++) {
-        if (commands[i].substr(0, 7) == "Update" || commands[i].substr(0, 7) == "Upgrade") {
-            while (newPackMan != "none") {
-                cout << packMan << endl;
-                cout << newPackMan << endl;
-                
-                packOut = system(getBasicCommand(argc, commands).c_str());
-                
-                packOut = 25000; // Spoofing an error for now
-                
-                cout << packOut << endl;
-                
-                upNewPackMan:
-                newPackMan = getNewPackMan();
-                cout << newPackMan << endl;
-                
-                if (newPackMan == "new") {
-                    cout << newPackMan << "###############################" << endl;
-                    goto upNewPackMan; // STOP WITH THE GOTOS!!!
-                }
-                
-                if (newPackMan == "none") {
-                    cout << "No package manager!!! #####################" << endl;
-                    break;
-                }
-                
-                if (newPackMan != "ok") {
-                    packMan = newPackMan;
-                } else {
-                    break;
-                }
+    if (commands[0].substr(0, 7) == "Update" || commands[0].substr(0, 7) == "Upgrade") {
+        while (newPackMan != "none") {
+            cout << packMan << endl;
+            cout << newPackMan << endl;
+            
+            packOut = system(getBasicCommand(commands).c_str());
+            
+            packOut = 25000; // Spoofing an error for now
+            
+            cout << packOut << endl;
+            
+            upNewPackMan:
+            newPackMan = getNewPackMan();
+            cout << newPackMan << endl;
+            
+            if (newPackMan == "new") {
+                cout << newPackMan << "###############################" << endl;
+                goto upNewPackMan; // STOP WITH THE GOTOS!!!
             }
-            cout << "################ NONE ##################" << endl;
-            break;
-        } else {
-            packOut = system(getBasicCommand(argc, commands).c_str());
+            
+            if (newPackMan == "none") {
+                cout << "No package manager!!! #####################" << endl;
+                break;
+            }
+            
+            if (newPackMan != "ok") {
+                packMan = newPackMan;
+            } else {
+                break;
+            }
         }
+        cout << "################ NONE ##################" << endl;
+    } else {
+        packOut = system(getBasicCommand(commands).c_str());
     }
     
     cout << packOut << endl;
