@@ -300,7 +300,14 @@ int main(int argc, char* argv[])
             cout << packMan << endl;
             cout << newPackMan << endl;
             
-            packOut = system(getBasicCommand(commands).c_str());
+            string command = getBasicCommand(commands);
+            
+            if (command == "invalid") {
+                cout << "Invalid parameter!!!" << endl;
+                return 200; // Invalid command
+            }
+            
+            packOut = system(command.c_str());
             
             packOut = 25000; // Spoofing an error for now
             
@@ -326,7 +333,13 @@ int main(int argc, char* argv[])
         }
         return 0;
     } else {
-        packOut = system(getBasicCommand(commands).c_str());
+        
+        string command = getBasicCommand(commands);
+        if (command == "invalid") {
+            cout << "Invalid parameter!!!" << endl;
+            return 200; // Invalid command
+        }
+        packOut = system(command.c_str());
     }
     
     cout << packOut << endl;
