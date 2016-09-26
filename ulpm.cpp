@@ -202,8 +202,22 @@ string getNewPackMan() {
     return "ok";
 }
 
-string getPythonPackage() {
-    return "null";
+string getPythonPackage(string commands[]) {
+    if (commands[1].substr(0, 9) == "Install: ") {
+        string command = "sudo pip install " + commands[1].substr(9);
+        return command;
+    } else if (commands[1].substr(0, 8) == "Remove: ") {
+        string command = "sudo pip uninstall " + commands[1].substr(8);
+        return command;
+    } else if (commands[1].substr(0, 7) == "Update") {
+        return "invalid";
+    } else if (commands[1].substr(0, 7) == "Upgrade") {
+        return "invalid";
+    } else if (commands[1].substr(0, 6) == "Deps: ") {
+        return "invalid"; // Currently no good way to do this
+    } else {
+        return "err";
+    }
 }
 
 string getRubyPackage() {
@@ -328,7 +342,37 @@ int main(int argc, char* argv[])
     
     if (newPackMan == "none") {
         cout << "No standard package manager" << endl;
-        return 1;
+        
+        // pip, gem, and npm code here
+        
+        bool needNewPackMan = false;
+        
+        if (hasProgram("pip")) {
+            string command = getPythonPackage(commands);
+            
+            if (command == "invalid") {
+                cout << "This command is invalid for pip" << endl;
+                packOut = 25000; // This is to show that there is an error and to continue with other package managers
+            } else {
+                packOut = system(command.c_str());
+                cout << packOut << endl;
+            }
+            
+            if (packOut != 0) {
+                needNewPackMan = true;
+            } else {
+                return 0;
+            }
+        } else {
+            needNewPackMan = true;
+        }
+        
+        if (needNewPackMan == true) {
+            return 1; // Placeholder for later
+        }
+        
+        
+        
     }
     
     if (newPackMan != "ok") {
