@@ -220,8 +220,23 @@ string getPythonPackage(string commands[]) {
 	}
 }
 
-string getRubyPackage() {
-	return "null";
+string getRubyPackage(string commands[]) {
+	if (commands[1].substr(0, 9) == "Install: ") {
+		string command = "sudo gem install " + commands[1].substr(9);
+		return command;
+	} else if (commands[1].substr(0, 8) == "Remove: ") {
+		string command = "sudo gem uninstall " + commands[1].substr(8);
+		return command;
+	} else if (commands[1].substr(0, 7) == "Update") {
+		return "invalid";
+	} else if (commands[1].substr(0, 7) == "Upgrade") {
+		return "sudo gem update `gem list | cut -d ' ' -f 1`";
+	} else if (commands[1].substr(0, 6) == "Deps: ") {
+		string command = "sudo gem dependency " + commands[1].substr(9);
+		return command;
+	} else {
+		return "err";
+	}
 }
 
 string getNpmPackage() {
@@ -380,9 +395,32 @@ int main(int argc, char* argv[])
 			needNewPackMan = true;
 		}
 		
-		if (needNewPackMan == true) {
-			return 1; // Placeholder for later
+		if (needNewPackMan == true && hasProgram("gem")) {
+			
+			needNewPackMan = false;
+			string command = getRubyPackage(commands);
+			
+			if (command == "invalid") {
+				cout << "This command is invalid for gem" << endl;
+				packOut = 25000;
+			} else {
+				packOut = system(command.c_str());
+				cout << packOut << endl;
+			}
+			
+			if (packOut != 0) {
+				needNewPackMan = true;
+			} else {
+				return 0;
+			}
+		} else {
+			needNewPackMan = true;
 		}
+		
+		if (needNewPackMan == true) {
+			return 1; // Placeholder
+		}
+		
 		
 		
 		
