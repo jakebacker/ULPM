@@ -239,8 +239,23 @@ string getRubyPackage(string commands[]) {
 	}
 }
 
-string getNpmPackage() {
-	return "null";
+string getNpmPackage(string commands[]) {
+	if (commands[1].substr(0, 9) == "Install: ") {
+		string command = "sudo npm install " + commands[1].substr(9);
+		return command;
+	} else if (commands[1].substr(0, 8) == "Remove: ") {
+		string command = "sudo npm remove " + commands[1].substr(8);
+		return command;
+	} else if (commands[1].substr(0, 7) == "Update") {
+		return "invalid";
+	} else if (commands[1].substr(0, 7) == "Upgrade") {
+		return "sudo npm update -g`";
+	} else if (commands[1].substr(0, 6) == "Deps: ") {
+		string command = "sudo npm view " + commands[1].substr(9) + " dependencies";
+		return command;
+	} else {
+		return "err";
+	}
 }
 
 string wgetGet() {
@@ -417,12 +432,31 @@ int main(int argc, char* argv[])
 			needNewPackMan = true;
 		}
 		
+		if (needNewPackMan == true && hasProgram("npm")) {
+			
+			needNewPackMan = false;
+			string command = getNpmPackage(commands);
+			
+			if (command == "invalid") {
+				cout << "This command is invalid for npm" << endl;
+				packOut = 25000;
+			} else {
+				packOut = system(command.c_str());
+				cout << packOut << endl;
+			}
+			
+			if (packOut != 0) {
+				needNewPackMan = true;
+			} else {
+				return 0;
+			}
+		} else {
+			needNewPackMan = true;
+		}
+		
 		if (needNewPackMan == true) {
 			return 1; // Placeholder
 		}
-		
-		
-		
 		
 	}
 	
